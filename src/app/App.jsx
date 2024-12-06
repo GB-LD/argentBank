@@ -7,6 +7,7 @@ import MissingPage from "../pages/MissingPage"
 import { Provider } from "react-redux"
 import store from "../redux/store"
 import RequireAuth from "../redux/features/authentification/RequireAuth"
+import '../styles/main.css'
 
 function App() {
 

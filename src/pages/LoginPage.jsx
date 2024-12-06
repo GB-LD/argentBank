@@ -1,12 +1,16 @@
+import { faCircleUser, faSignIn} from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+
 import { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import loginUserThunk from "../redux/features/authentification/authThunks"
-import { useNavigate } from "react-router-dom"
+import { useNavigate, useNavigationType } from "react-router-dom"
 
 const LoginPage = () => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
-  const { loading, error, userToken, isAuthenticated } = useSelector((state) => state.auth)
+  const navigationType = useNavigationType()
+  const { loading, error, isAuthenticated } = useSelector((state) => state.auth)
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
 
@@ -17,41 +21,52 @@ const LoginPage = () => {
 
   useEffect(() => {
     if (isAuthenticated) {
-      navigate("/profile")
+      if (navigationType === "POP") {
+        navigate("/");
+      } else {
+        navigate("/profile")
+      }
     }
-  }, [isAuthenticated, navigate])
+  }, [isAuthenticated, navigate, navigationType])
 
   return (
-    <div>
-    <h1>Login Page</h1>
-    <form onSubmit={handleSubmit}>
-      <label>
-        Email:
-        <input
-          type="email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          placeholder="Enter your email"
-        />
-      </label>
-      <br />
-      <label>
-        Password:
-        <input
-          type="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          placeholder="Enter your password"
-        />
-      </label>
-      <br />
-      <button type="submit" disabled={loading}>
-        {loading ? "Logging in..." : "Login"}
-      </button>
-    </form>
-    <div>user token : {userToken}</div>
-    {error && <p style={{ color: "red" }}>{error}</p>}
-  </div>
+    <main className="main bg-dark">
+      <section className="sign-in-content">
+        <FontAwesomeIcon icon={faCircleUser} className='faCircleUser'/>
+        <FontAwesomeIcon icon={faSignIn} className='faSignIn'/>
+        <h1>Sign In</h1>
+        <form onSubmit={handleSubmit}>
+          <div className='input-wrapper'>
+            <label htmlFor="username">Username</label>
+            <input
+              id="username"
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="Enter your email"
+            />
+          </div>
+          <div className='input-wrapper'>
+            <label htmlFor='password'>Password</label>
+            <input
+              id="password"
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              placeholder="Enter your password"
+            />
+          </div>
+          <div className="input-remember">
+              <input type="checkbox" id="remember-me" />
+              <label htmlFor="remember-me">Remember me</label>
+          </div>
+          <button type="submit" disabled={loading} className='sign-in-button'>
+            {loading ? "Logging in..." : "Sign In"}
+          </button>
+        </form>
+        {error && <p style={{ color: "red" }}>{error}</p>}
+      </section>
+    </main>
   )
 }
 
