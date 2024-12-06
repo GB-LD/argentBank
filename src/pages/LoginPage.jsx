@@ -1,10 +1,12 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import loginUserThunk from "../redux/features/authentification/authThunks"
+import { useNavigate } from "react-router-dom"
 
 const LoginPage = () => {
   const dispatch = useDispatch()
-  const { loading, error, userToken } = useSelector((state) => state.auth)
+  const navigate = useNavigate()
+  const { loading, error, userToken, isAuthenticated } = useSelector((state) => state.auth)
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
 
@@ -12,6 +14,12 @@ const LoginPage = () => {
     e.preventDefault()
     dispatch(loginUserThunk({email, password}));
   }
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      navigate("/profile")
+    }
+  }, [isAuthenticated, navigate])
 
   return (
     <div>
