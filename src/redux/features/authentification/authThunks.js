@@ -13,13 +13,13 @@ const loginUserThunk = createAsyncThunk(
             });
 
             if (!response.ok) {
-                throw new Error("Invalid credentials") // Génère une erreur si l'authentification échoue
+                throw new Error("The email address or password you entered is incorrect. Please try again.") // Génère une erreur si l'authentification échoue
             }
 
             const data = await response.json() // Récupère les données utilisateur
             return data // Données renvoyées au reducer via `fulfilled`
         } catch(error) {
-            return thunkAPI.rejectWithValue(error.message)  // Retourne un message d'erreur pour `rejected`
+            return thunkAPI.rejectWithValue("Unable to connect to the authentication server. Please check your internet connection and try again later.")  // Retourne un message d'erreur pour `rejected`
         }
     }
 );

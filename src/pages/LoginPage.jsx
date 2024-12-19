@@ -21,10 +21,10 @@ const LoginPage = () => {
 
   useEffect(() => {
     if (isAuthenticated) {
-      if (navigationType === "POP") {
-        navigate("/");
-      } else {
+      if (navigationType !== "POP") {
         navigate("/profile")
+      } else {
+        navigate("/");
       }
     }
   }, [isAuthenticated, navigate, navigationType])
