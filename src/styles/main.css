@@ -52,10 +52,10 @@ html {
     padding: 5px 20px;
   }
 
-  .main-nav a {
+  /* .main-nav a {
     font-weight: bold;
     color: #2c3e50;
-  }
+  } */
 
   .main-nav a.router-link-exact-active {
     color: #42b983;
@@ -68,6 +68,7 @@ html {
 
   .main-nav-item:hover {
     text-decoration: underline;
+    color: inherit;
   }
 
   .main-nav-logo {
@@ -165,11 +166,10 @@ html {
 
   .sign-in-button {
     display: block;
-    width: 100%;
+    width: auto;
     padding: 8px;
     font-size: 1.1rem;
     font-weight: bold;
-    margin-top: 1rem;
     border-color: #00bc77;
     background-color: #00bc77;
     color: #fff;

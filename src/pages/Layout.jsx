@@ -1,10 +1,14 @@
 import { faCircleUser} from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Outlet, useLocation, NavLink } from "react-router-dom"
+import { useDispatch, useSelector } from "react-redux"
+import { logout } from '../redux/features/authentification/authSlice';
 
 const Layout = () => {
+  const dispatch = useDispatch()
+  const { isAuthenticated } = useSelector((state) => state.auth)
   const location = useLocation()
-  const isOnHomePage = location.pathname === '/'
+  const isOnLoginPage = location.pathname === '/login'
 
   return (
     <>
@@ -18,8 +22,12 @@ const Layout = () => {
             />
             <h1 className="sr-only">Argent Bank</h1>
           </NavLink>
-          { isOnHomePage &&
-          <NavLink className="main-nav-item" to="/login">
+          { isAuthenticated && !isOnLoginPage ? (
+              <button className='sign-in-button' onClick={() => dispatch(logout())}>Sign out</button>
+            ) : null
+          }
+          { !isAuthenticated && !isOnLoginPage &&
+          <NavLink className="main-nav-item sign-in-button" to="/login">
               <FontAwesomeIcon icon={faCircleUser} className='faCircleUser'/>
               Sign In
           </NavLink>
