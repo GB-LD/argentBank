@@ -7,6 +7,7 @@ import { logout } from '../redux/features/authentification/authSlice';
 const Layout = () => {
   const dispatch = useDispatch()
   const { isAuthenticated } = useSelector((state) => state.auth)
+  const { userProfile } = useSelector((state) => state.profile)
   const location = useLocation()
   const isOnLoginPage = location.pathname === '/login'
 
@@ -23,7 +24,10 @@ const Layout = () => {
             <h1 className="sr-only">Argent Bank</h1>
           </NavLink>
           { isAuthenticated && !isOnLoginPage ? (
-              <button className='sign-in-button' onClick={() => dispatch(logout())}>Sign out</button>
+              <div>
+                <div>{ userProfile?.firstName }</div>
+                <button className='sign-in-button' onClick={() => dispatch(logout())}>Sign out</button>
+              </div>
             ) : null
           }
           { !isAuthenticated && !isOnLoginPage &&

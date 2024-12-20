@@ -1,4 +1,27 @@
+import { useEffect } from "react"
+import { useDispatch, useSelector } from "react-redux"
+import fetchUserProfileThunk from "../redux/features/profile/profileThunks"
+import { clearProfile } from "../redux/features/profile/profileSlice"
+
 const ProfilePage = () => {
+  const dispatch = useDispatch()
+  const { userToken, isAuthenticated } = useSelector((state) => state.auth)
+  const { userProfile, loading, error } = useSelector((state) => state.profile)
+
+  useEffect(() => {
+    if (isAuthenticated && userToken) {
+      dispatch(fetchUserProfileThunk(userToken))
+    }
+
+    return () => {
+      dispatch(clearProfile())
+    }
+  }, [dispatch, userToken, isAuthenticated])
+
+  if (loading) return <div>Loading...</div>
+
+  if (error) return <div>Error: {error}</div>
+
   return (
     <main className="main bg-dark">
       <div className="header">

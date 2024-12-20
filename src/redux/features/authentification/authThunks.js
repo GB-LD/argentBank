@@ -24,4 +24,4 @@ const loginUserThunk = createAsyncThunk(
     }
 );
 
-export default loginUserThunk;
+export default loginUserThunk

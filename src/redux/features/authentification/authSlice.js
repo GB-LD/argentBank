@@ -21,19 +21,16 @@ const authSlice = createSlice({
             // Déclenché lorsque la requête commence
             state.loading = true
             state.error = null
-            console.log(action)
         })
         .addCase(loginUserThunk.fulfilled, (state, action) => {
             // Déclenché lorsque la requête réussit
             state.loading = false
             state.isAuthenticated = true
             state.userToken = action.payload.body.token
-            console.log(action)
         })
         .addCase(loginUserThunk.rejected, (state, action) => {
             state.loading = false
             state.error = action.payload
-            console.log(action)
         })
     }
 })
