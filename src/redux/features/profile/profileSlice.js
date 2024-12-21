@@ -1,5 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit'
 import fetchUserProfileThunk from './profileThunks'
+import updateUserProfileThunk from './updateUserProfileThunks'
 
 const profileSlice = createSlice({
     name: "profile",
@@ -26,6 +27,13 @@ const profileSlice = createSlice({
         })
         .addCase(fetchUserProfileThunk.rejected, (state, action) => {
             state.loading = false
+            state.error = action.payload
+        })
+        .addCase(updateUserProfileThunk.fulfilled, (state, action) => {
+            state.userProfile = {...state.updateProfile, ...action.payload}
+            state.error = null
+        })
+        .addCase(updateUserProfileThunk.rejected, (state, action) => {
             state.error = action.payload
         })
     }

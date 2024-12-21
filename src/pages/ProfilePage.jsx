@@ -1,12 +1,22 @@
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import fetchUserProfileThunk from "../redux/features/profile/profileThunks"
 import { clearProfile } from "../redux/features/profile/profileSlice"
+import EditProfileForm from "../component/EditProfileForm"
 
 const ProfilePage = () => {
   const dispatch = useDispatch()
   const { userToken, isAuthenticated } = useSelector((state) => state.auth)
-  const { userProfile, loading, error } = useSelector((state) => state.profile)
+  const { loading, error } = useSelector((state) => state.profile)
+  const [isEditing, setEditing] = useState(false)
+
+  function handleOpenForm() {
+    setEditing(true)
+  }
+
+  function handldeCloseForm() {
+    setEditing(false)
+  }
 
   useEffect(() => {
     if (isAuthenticated && userToken) {
@@ -26,7 +36,8 @@ const ProfilePage = () => {
     <main className="main bg-dark">
       <div className="header">
         <h1>Welcome back<br />Tony Jarvis!</h1>
-        <button className="edit-button">Edit Name</button>
+        <button className="edit-button" onClick={handleOpenForm}>Edit Name</button>
+        { isEditing && <EditProfileForm onClose={handldeCloseForm} /> }
       </div>
       <h2 className="sr-only">Accounts</h2>
       <section className="account">
