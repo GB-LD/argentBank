@@ -1,0 +1,218 @@
+openapi: 3.0.0
+info:
+  title: Bank Argent Transactions API documentation
+  version: 1.0.0
+  description: API documentation for managing user transactions.
+
+servers:
+  - url: http://localhost:3001/api/v1
+    description: Local server
+
+paths:
+  /user/transactions:
+    get:
+      summary: Retrieve all transactions for the current month, grouped by account.
+      description: Returns a list of all transactions for the authenticated user for the current month, grouped by account.
+      parameters:
+        - name: Authorization
+          in: header
+          required: true
+          description: Bearer token for authentication.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful response with transactions data.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  accounts:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        accountId:
+                          type: string
+                        transactions:
+                          type: array
+                          items:
+                            $ref: '#/components/schemas/Transaction'
+        '401':
+          description: Unauthorized access.
+        '500':
+          description: Internal server error.
+
+    post:
+      summary: Add a new transaction.
+      description: Creates a new transaction for the authenticated user.
+      parameters:
+        - name: Authorization
+          in: header
+          required: true
+          description: Bearer token for authentication.
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NewTransaction'
+      responses:
+        '201':
+          description: Transaction successfully created.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Transaction'
+        '400':
+          description: Invalid input.
+        '401':
+          description: Unauthorized access.
+        '500':
+          description: Internal server error.
+
+  /transactions/{transactionId}:
+    get:
+      summary: Retrieve transaction details.
+      description: Returns details of a specific transaction.
+      parameters:
+        - name: transactionId
+          in: path
+          required: true
+          description: ID of the transaction to retrieve.
+          schema:
+            type: string
+        - name: Authorization
+          in: header
+          required: true
+          description: Bearer token for authentication.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful response with transaction details.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Transaction'
+        '404':
+          description: Transaction not found.
+        '401':
+          description: Unauthorized access.
+        '500':
+          description: Internal server error.
+
+    put:
+      summary: Update a transaction.
+      description: Updates the details of an existing transaction.
+      parameters:
+        - name: transactionId
+          in: path
+          required: true
+          description: ID of the transaction to update.
+          schema:
+            type: string
+        - name: Authorization
+          in: header
+          required: true
+          description: Bearer token for authentication.
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateTransaction'
+      responses:
+        '200':
+          description: Transaction successfully updated.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Transaction'
+        '400':
+          description: Invalid input.
+        '404':
+          description: Transaction not found.
+        '401':
+          description: Unauthorized access.
+        '500':
+          description: Internal server error.
+
+    delete:
+      summary: Delete a transaction.
+      description: Deletes a specific transaction.
+      parameters:
+        - name: transactionId
+          in: path
+          required: true
+          description: ID of the transaction to delete.
+          schema:
+            type: string
+        - name: Authorization
+          in: header
+          required: true
+          description: Bearer token for authentication.
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Transaction successfully deleted.
+        '404':
+          description: Transaction not found.
+        '401':
+          description: Unauthorized access.
+        '500':
+          description: Internal server error.
+
+components:
+  schemas:
+    Transaction:
+      type: object
+      properties:
+        id:
+          type: string
+        date:
+          type: string
+          format: date-time
+        amount:
+          type: number
+        description:
+          type: string
+        accountId:
+          type: string
+
+    NewTransaction:
+      type: object
+      required:
+        - date
+        - amount
+        - description
+        - accountId
+      properties:
+        date:
+          type: string
+          format: date-time
+        amount:
+          type: number
+        description:
+          type: string
+        accountId:
+          type: string
+
+    UpdateTransaction:
+      type: object
+      properties:
+        date:
+          type: string
+          format: date-time
+        amount:
+          type: number
+        description:
+          type: string
+        accountId:
+          type: string
