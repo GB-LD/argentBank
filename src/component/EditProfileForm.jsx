@@ -33,27 +33,33 @@ const EditProfileForm = ({ onClose }) => {
       <h2>Edit profile</h2>
       { successMessage && <p>{successMessage}</p> }
       { error && <p>{error}</p> }
-      <form onSubmit={handleFormSubmit}>
+      <form onSubmit={handleFormSubmit} className='nameForm'>
+        <div className='nameFormInputs'>
           <div>
-            <label htmlFor="firstName">First Name :</label>
-            <input
-              type="text"
-              id='firstName'
-              value={firstName}
-              onChange={(e) => setFirstName(e.target.value)}
-            />
+            <label htmlFor="firstName">
+              <input
+                type="text"
+                id='firstName'
+                value={firstName}
+                onChange={(e) => setFirstName(e.target.value)}
+              />
+            </label>
           </div>
           <div>
-            <label htmlFor="lastName">Last Name :</label>
-            <input
-              type="text"
-              id='lastName'
-              value={lastName}
-              onChange={(e) => setLastName(e.target.value)}
-            />
+            <label htmlFor="lastName">
+              <input
+                type="text"
+                id='lastName'
+                value={lastName}
+                onChange={(e) => setLastName(e.target.value)}
+              />
+            </label>
           </div>
-          <button type='submit'>Save</button>
-          <button onClick={onClose}>Cancel</button>
+        </div>
+        <div className='nameFormBtns'>
+          <button className='edit-button' type='submit'>Save</button>
+          <button className='edit-button' onClick={onClose}>Cancel</button>
+        </div>
       </form>
     </>
   )

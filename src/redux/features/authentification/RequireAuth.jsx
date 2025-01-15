@@ -6,9 +6,9 @@ const RequireAuth = ({ children = null }) => {
     // Vérifiez si l'utilisateur est connecté en récupérant l'état depuis Redux
     const isAuthenticated = useSelector((state) => state.auth.isAuthenticated)
 
-    // Si l'utilisateur n'est pas authentifié, redirigez-le vers la page de connexion
+    // Si l'utilisateur n'est pas authentifié, redirigez-le vers la homepage
     if (!isAuthenticated) {
-        return < Navigate to="/login" />
+        return < Navigate to="/" />
     }
 
     return children

@@ -30,7 +30,7 @@ const LoginPage = () => {
   }, [isAuthenticated, navigate, navigationType])
 
   return (
-    <main className="main bg-dark">
+    <main className="main bg-light">
       <section className="sign-in-content">
         <FontAwesomeIcon icon={faCircleUser} className='faCircleUser'/>
         <FontAwesomeIcon icon={faSignIn} className='faSignIn'/>

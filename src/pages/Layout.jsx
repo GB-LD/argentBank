@@ -1,4 +1,4 @@
-import { faCircleUser} from '@fortawesome/free-solid-svg-icons';
+import { faCircleUser, faRightFromBracket} from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Outlet, useLocation, NavLink } from "react-router-dom"
 import { useDispatch, useSelector } from "react-redux"
@@ -24,15 +24,21 @@ const Layout = () => {
             <h1 className="sr-only">Argent Bank</h1>
           </NavLink>
           { isAuthenticated && !isOnLoginPage ? (
-              <div>
+              <div className='log-section'>
+                <NavLink to="/profile">
+                  <FontAwesomeIcon icon={faCircleUser} className='faCircleUser'/>
+                </NavLink>
                 <div>{ userProfile?.firstName }</div>
-                <button className='sign-in-button' onClick={() => dispatch(logout())}>Sign out</button>
+                <button onClick={() => dispatch(logout())}>
+                  <FontAwesomeIcon icon={faRightFromBracket} className='faRightFromBracket'/>
+                  <p>Sign out</p>
+                </button>
               </div>
             ) : null
           }
           { !isAuthenticated && !isOnLoginPage &&
           <NavLink className="main-nav-item sign-in-button" to="/login">
-              <FontAwesomeIcon icon={faCircleUser} className='faCircleUser'/>
+              <FontAwesomeIcon icon={faCircleUser} className='faCircleUser homeStyle'/>
               Sign In
           </NavLink>
           }

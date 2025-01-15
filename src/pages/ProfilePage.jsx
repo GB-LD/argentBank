@@ -7,7 +7,7 @@ import EditProfileForm from "../component/EditProfileForm"
 const ProfilePage = () => {
   const dispatch = useDispatch()
   const { userToken, isAuthenticated } = useSelector((state) => state.auth)
-  const { loading, error } = useSelector((state) => state.profile)
+  const { loading, error, userProfile } = useSelector((state) => state.profile)
   const [isEditing, setEditing] = useState(false)
 
   function handleOpenForm() {
@@ -33,9 +33,9 @@ const ProfilePage = () => {
   if (error) return <div>Error: {error}</div>
 
   return (
-    <main className="main bg-dark">
+    <main className="main bg-light">
       <div className="header">
-        <h1>Welcome back<br />Tony Jarvis!</h1>
+        <h1>Welcome back<br /> {userProfile?.firstName} {userProfile?.lastName}</h1>
         <button className="edit-button" onClick={handleOpenForm}>Edit Name</button>
         { isEditing && <EditProfileForm onClose={handldeCloseForm} /> }
       </div>
